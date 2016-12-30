@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+        <script src="js/jquery.js" charset="utf-8"></script>
+        <script src="css/bootstrap/js/bootstrap.min.js" charset="utf-8"></script>
+        <title>Test App</title>
+        <style media="screen">
+        *{
+          margin: 0px;
+        }
+          html, body{
+            background: black;
+            color: white;
+            height: 90%;
+          }
+          h1{
+            background: grey;
+            color:blue;
+          }
+          #main{
+            height: 90%;
+            width:100%;
+          }
+          #watch{
+            border-style: solid;
+            border-color: white;
+            text-align: center;
+            display: inline;
+            font-size: 40px;
+          }
+          #w{
+            text-align: center;
+
+          }
+          #btn{
+              margin-top: 5px;
+          }
+          .btn{
+            font-size: 40px;
+          }
+          .box{
+            height: 20%;
+          }
+        </style>
+    </head>
+    <body>
+      <div id="main">
+        <h1>STOP WATCH</h1>
+        <div class="box">
+
+        </div>
+        <div class="container">
+          <div id="w">
+            <div id="watch">
+              00:00:00
+            </div>
+              <div id="btn">
+              <div class="btn-group">
+                <button class="btn btn-primary" id="start" type="button" name="button">start</button>
+                <button class="btn btn-warning" id="reset" type="button" name="button">reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box">
+
+        </div>
+      </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript">
+        var start = document.getElementById("start")
+        var reset = document.getElementById("reset")
+        var watch = document.getElementById("watch")
+        var $startTime
+        var id
+        var now=0
+        var controll=true
+        var stopwatchDisplay=0
+        function addZero(num, digit) {
+          var numStr = String(num)
+          while (numStr.length < digit) {
+            numStr = "0"+numStr
+          }
+          return numStr
+        }
+        function displayTime() {
+          var time2 = new Date()
+          time2 = time2.getTime()
+          var time1 = $startTime
+          now = time2
+          var rest = now - time1
+          stopwatchDisplay=rest
+          var min = Math.floor(rest/1000/60)
+          var sec = Math.floor(rest/1000%60)
+          var ms = Math.floor(rest%1000/10)
+          watch.textContent=addZero(min, 2)+":"+addZero(sec, 2)+":"+addZero(ms, 2)
+          refresh()
+        }
+        function refresh() {
+          id = setTimeout(displayTime, 1)
+        }
+        start.addEventListener("click", function () {
+              var time = new Date()
+              $startTime = time.getTime() - stopwatchDisplay
+          if (start.textContent==="start") {
+            startCount()
+          }else {
+            stopCount();
+          }
+        })
+        function startCount() {
+          start.textContent="stop"
+          displayTime()
+        }
+        function stopCount() {
+          start.textContent="start"
+          clearTimeout(id)
+        }
+        reset.addEventListener("click", function () {
+          watch.textContent="00:00:00"
+          stopwatchDisplay=0
+        })
+        </script>
+    </body>
+</html>
